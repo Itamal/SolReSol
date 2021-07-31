@@ -14,8 +14,9 @@ You can play in a phrase (2.5 sec window from first key)
 
 # Thanks
 # SolReSol Dictionary
-"Translated from François Sudre's original definitions by Garrison Osteen 
+dict1 - "Translated from François Sudre's original definitions by Garrison Osteen 
 Gradually modified and edited by the Solresol Community"
+dict2 - https://www.datapacrat.com/True/LANG/SOLRESOL/DICTIONA.HTM
 # Instruments.js
 https://github.com/nbrosowsky/tonejs-instruments
 # Tone.js

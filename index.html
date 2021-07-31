@@ -10,9 +10,11 @@
 
     <!-- Styling -->
     <link rel="stylesheet" href="nprogress.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Document Title
 	============================================= -->
     <title>SolReSol Teacher</title>
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
 
 </head>
 
@@ -21,7 +23,7 @@
         body {
             height: 100vh;
             width: 100vw;
-            font-family: Helvetica, arial;
+            font-family: monospace;
             font-size: 16px;
             text-align: center
         }
@@ -46,7 +48,11 @@
             width: 20px
         }
 
-    </style>
+    </style>	
+    <div>
+		<input type="text" id="searchbar" placeholder="Search.." name="search">
+		<button onclick="display_play(searchbar.value)"><i class="fa fa-search"></i></button>
+	</div>
     <div id="content">
         <H3 id="loading">Loading...</H3>
         <div class="container">
@@ -56,28 +62,28 @@
             <br/>
             <div id="Keyboard" style='display: none;'></div>
             <div id='hello' onclick="getRandom()" style="font-size: 5vw;">👋
-                <h1 style="font-size: 3vw;" id='wordbox'></h1>
+                <h1 style="font-size: 3vw;" id='wordbox'>click on hand to learn a word</h1>
             </div>
-            <div id='noteholder' style="font-size: 6vw">
-                <span id='note0'></span>
-                <span id='note1'></span>
-                <span id='note2'></span>
-                <span id='note3'></span>
-                <span id='note4'></span>
+            <div id='noetholder' onclick='read_keys(event)' style="font-size: 6vw">
+                <span id='note0' onclick="play_sound_html(event)"></span>
+                <span id='note1' onclick="play_sound_html(event)"></span>
+                <span id='note2' onclick="play_sound_html(event)"></span>
+                <span id='note3' onclick="play_sound_html(event)"></span>
+                <span id='note4' onclick="play_sound_html(event)"></span>
             </div>
             <br><br>
             <br><br>
             <br><br>
-            <div id='keyholder' onclick='read_keys(event)' style="font-size: 6vw; border-radius: 1vw;">
+            <div id='kehyolder' onclick='read_keys(event)' style="font-size: 6vw; border-radius: 1vw;">
 
                 <span class='keys' id='octave_low' onclick="octave -= 1" ><</span>
-                <span class='keys' id='key0' onclick="play_sound('C')" >C</span>
-                <span class='keys' id='key1' onclick="play_sound('D')" >D</span>
-                <span class='keys' id='key2' onclick="play_sound('E')" >E</span>
-                <span class='keys' id='key3' onclick="play_sound('F')" >F</span>
-                <span class='keys' id='key4' onclick="play_sound('G')" >G</span>
-                <span class='keys' id='key5' onclick="play_sound('A')" >A</span>
-                <span class='keys' id='key6' onclick="play_sound('B')" >B</span>
+                <span class='keys' id='key0' onclick="play_sound('C')" >Do</span>
+                <span class='keys' id='key1' onclick="play_sound('D')" >Re</span>
+                <span class='keys' id='key2' onclick="play_sound('E')" >Mi</span>
+                <span class='keys' id='key3' onclick="play_sound('F')" >Fa</span>
+                <span class='keys' id='key4' onclick="play_sound('G')" >Sol</span>
+                <span class='keys' id='key5' onclick="play_sound('A')" >La</span>
+                <span class='keys' id='key6' onclick="play_sound('B')" >Si</span>
                 <span class='keys' id='octave_hi' onclick="octave += 1" >></span>
             </div>
         </div>
@@ -92,11 +98,19 @@
         color_dict = [
         ['C','D','E','F','G','A','B'],
         ['rgb(255,0,0)','rgb(255,165,0)','rgb(255,255,0)','rgb(0,255,0)','rgb(0,204,204)','rgb(51,153,255)','rgb(128,110,144)'],
-        ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si']
+        ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+        ['key0','key1','key2','key3','key4','key5','key6']
         ]
         time = 0.63
         octave = 4
+        function play_sound_html(event){
+        	play_sound(color_dict[0][color_dict[2].indexOf(event.target.innerHTML)])
+        }
+
         function play_sound(sound_to_play){
+        	if (octave < 0 || octave > 7){
+        		octave = 4
+        	}
             sound_to_play = sound_to_play + octave
             current.triggerAttackRelease(sound_to_play, time)            
         }
@@ -137,11 +151,15 @@
             }
         }
         function display_word_and_notes(word){
-            wordbox.innerHTML = word
+        	wordbox.innerHTML = word
+            if (find_word_notes(word) == undefined){
+            	console.log('not recognized')
+                return
+            }
             let tmp3 = find_word_notes(word)[0]
             let j = find_word_notes(word)[0]
+            console.log(tmp3,j)
             setTimeout(function(){
-                console.log(tmp3,j)
                 if (j>-1) {
                     console.log(j,'changin')
                     wordbox.innerHTML = dict[j][0]    
@@ -152,19 +170,17 @@
                     return
                 }
                 
-                var children = noteholder.children;
+                var children = noetholder.children;
                 for (var i = 0; i < children.length; i++) {
                     var tableChild = children[i];
                     // console.log(tableChild)
                     if (tmp3[i] == -1){
                         tableChild.innerHTML = ''
                     } else {
-                        tableChild.innerHTML = tmp3[i]
+                        tableChild.innerHTML = color_dict[2][color_dict[0].indexOf(tmp3[i])] 
                         tableChild.style.backgroundColor = cell_color(tmp3[i])
                         tone_to_play = tmp3[i]
-                        tableChild.addEventListener('click', function () {
-                        play_sound(tone_to_play)
-                        });
+
                     }
                 }                
             }, 500)
@@ -190,7 +206,7 @@
             // }
         }
         function clear_word(){
-            var children = noteholder.children;
+            var children = noetholder.children;
             for (var i = 0; i < children.length; i++) {
                 var tableChild = children[i];
                 // console.log(tableChild)
@@ -208,15 +224,16 @@
 
         function display_play(word){
             let a = find_word_notes(word)
+            display_word_and_notes(word);
             console.log(a)
             if (a != undefined){
                 play_word(a[0]);
                 wordbox.innerHTML = dict[a[1]][1] 
             } else {
-                 wordbox.innerHTML= 'word not found'
+                wordbox.innerHTML += ' ~ word not found'
             }
-            //display_word_and_notes(word);
         }
+
         function getRandom(min = 0, max = dict.length) {
             clear_word()
             min = Math.ceil(min);
@@ -225,30 +242,40 @@
             display_play(dict[x][1])
             display_word_and_notes(dict[x][1])
         }
+
         key_reader_trigger = 0
         key_reader_memory = []
+
         function read_keys(event){
-            if (key_reader_trigger == 0){
-                key_reader_trigger = 1
-                setTimeout(function(){
-                    clear_word()
-                    check_if_note_in_dict(key_reader_memory)
-                    key_reader_memory = []
-                    key_reader_trigger = 0
-                    // console.log(key_reader_memory)
-                }, 2500);
-            }
-            key_reader_memory.push(event.target.innerHTML)
-                // destroy in 2.5 sec
+        	if (event.target.id.substring(0,3) === 'key' || event.target.id.substring(0,3) === 'not'){
+        		console.log(event.target.id)
+	            if (key_reader_trigger == 0){
+	                key_reader_trigger = 1
+	                setTimeout(function(){
+	                    clear_word()
+	                    check_if_note_in_dict(key_reader_memory)
+	                    key_reader_memory = []
+	                    key_reader_trigger = 0
+	                    // console.log(key_reader_memory)
+	                }, 2500);
+	            }
+	            let temp = color_dict[2].indexOf(event.target.innerHTML) 
+	            key_reader_memory.push(color_dict[0][temp])
+            }// destroy in 2.5 sec
             // console.log(key_reader_memory)
         }
+
         function check_if_note_in_dict (arr) {
+        	console.log(arr)
             temp_str = ''
             for (i=0;i<arr.length;i++){
                 temp_str += color_dict[2][color_dict[0].indexOf(arr[i])]
             }
             console.log(temp_str)
+
+            display_word_and_notes(temp_str)
             display_play(temp_str)
+            
         }
         NProgress.start();
         // load samples //
@@ -282,10 +309,10 @@
             })
             play_word(['C','G','F','B',-1]);
             
-            var children = keyholder.children;
+            var children = kehyolder.children;
             for (var i = 0; i < children.length; i++) {
                 var tableChild = children[i];
-                tableChild.style.backgroundColor = cell_color(tableChild.innerHTML)
+                tableChild.style.backgroundColor = cell_color(color_dict[0][tableChild.id.substring(3,4)])
             }
             // key0.style.backgroundColor = cell_color(key0.innerHTML)
             // key1.style.backgroundColor = cell_color(key1.innerHTML)
