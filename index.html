@@ -53,7 +53,7 @@
 		<input type="text" id="searchbar" placeholder="Search.." name="search">
 		<button onclick="display_play(searchbar.value)"><i class="fa fa-search"></i></button>
 	</div>
-    <div id="content">
+    <div id="content" > <!-- onmousemove="trigger_event(event)" -->
         <H3 id="loading">Loading...</H3>
         <div class="container">
             <h1> SolReSol Teacher</h1>
@@ -62,7 +62,7 @@
             <br/>
             <div id="Keyboard" style='display: none;'></div>
             <div id='hello' onclick="getRandom()" style="font-size: 5vw;">👋
-                <h1 style="font-size: 3vw;" id='wordbox'>click on hand to learn a word</h1>
+                <h1 style="font-size: 4.5vw;" id='wordbox'>click on hand to learn a word</h1>
             </div>
             <div id='noetholder' onclick='read_keys(event)' style="font-size: 6vw">
                 <span id='note0' onclick="play_sound_html(event)"></span>
@@ -95,6 +95,19 @@
     <script type="text/javascript" src="Tonejs-Instruments.js"></script>
 
     <script>
+    	// event_trig = 0
+    	// function trigger_event(event){
+    	// 	console.log('move',event.target.id)
+   		//     if (event_trig == 0){
+   		//     	//read
+	   	// 	    setTimeout(function(){
+	    // 			wordbox.innerHTML = event_trig
+	    // 			event_trig = 0
+	    // 			}, 500)
+   		//     } 
+   		//     event_trig = event.target.id
+    	// }
+
         color_dict = [
         ['C','D','E','F','G','A','B'],
         ['rgb(255,0,0)','rgb(255,165,0)','rgb(255,255,0)','rgb(0,255,0)','rgb(0,204,204)','rgb(51,153,255)','rgb(128,110,144)'],
@@ -182,7 +195,8 @@
                         tone_to_play = tmp3[i]
 
                     }
-                }                
+                }
+                
             }, 500)
             
             // note0.innerHTML = tmp3[0]
@@ -232,6 +246,8 @@
             } else {
                 wordbox.innerHTML += ' ~ word not found'
             }
+
+            find_emoji_for_notes(word)
         }
 
         function getRandom(min = 0, max = dict.length) {
@@ -277,6 +293,20 @@
             display_play(temp_str)
             
         }
+
+        function find_emoji_for_notes(str){
+        	str = str.toLowerCase()
+        	console.log(str)
+        	for (i=0;i < emoji_index.length; i++){
+        		if (str === emoji_index[i][2].toLowerCase()){
+        			console.log(emoji_index[i][0],emoji_index[i][2].toLowerCase())
+        			wordbox.innerHTML += emoji_index[i][0]
+        			// hello.innerHTML = emoji_index[i][0]
+        		}
+        	}
+        }
+
+        // from here below code from js-instruments
         NProgress.start();
         // load samples //
 
@@ -3350,6 +3380,184 @@
 ["Dofaremisi","Selgemme","C","F","D","E","B"],
 ["Dofarefado","Magnésie","C","F","D","F","C"],
 ["Dofaresoldo","Géologie - Géologie - Géologique","C","F","D","G","C"]]
+
+let emoji_index = [["🆒","alphanum","Fasisido"],["🐔","animal-bird","Dolasolmi"],["🐓","animal-bird","Doresollado"],["🐧","animal-bird","Dorelaresi"],["🦅","animal-bird","Dorelamisi"],["🐌","animal-bug","Doresilami"],["🦋","animal-bug","Dorefaredo"],["🐛","animal-bug","Solredola"],["🐞","animal-bug","Fafadore"],["🕷","animal-bug","Dorefaresi"],["🐺","animal-mammal","Doredofare"],["🦊","animal-mammal","Doredofado"],["🐯","animal-mammal","Doremidosol"],["🐆","animal-mammal","Doremidosi"],["🐐","animal-mammal","Farelasol"],["🐪","animal-mammal","Faresido"],["🐘","animal-mammal","Doredosila"],["🦏","animal-mammal","Doredosifa"],["🐰","animal-mammal","Doredoresi"],["🐬","animal-marine","Doresifado"],["🦈","animal-marine","Doresifasol"],["🦐","animal-marine","Doresiredo"],["🐊","animal-reptile","Doremiresol"],["🐢","animal-reptile","Doremirela"],["🦎","animal-reptile","Dorefamifa"],["🐍","animal-reptile","Dorefamisol"],["🐲","animal-reptile","Dorefarefa"],["⬅","arrow","Fafalare"],["◀","av-symbol","Famisolla"],["📴","av-symbol","Solmisifa"],["🥇","award-medal","Remisila"],["😻","cat-face","Solsisol"],["🙀","cat-face","Resollado"],["👓","clothing","Redosila"],["👔","clothing","Redofami"],["👛","clothing","Resoldosol"],["📿","clothing","Domimisol"],["🔌","computer","Solsilare"],["🖨","computer","Lalamido"],["⌨","computer","Solmilasi"],["💿","computer","Sifadodo"],["🇦🇨","country-flag","Dofafare"],["🇦🇪","country-flag","Falasolsi"],["🇦🇸","country-flag","Falasisol"],["🇦🇺","country-flag","Falasila"],["🇧🇱","country-flag","Doresolsol"],["🇨🇦","country-flag","Domisolfala"],["🇨🇳","country-flag","Lafafami"],["🇨🇽","country-flag","Dofafasi"],["🇪🇭","country-flag","Relasifa"],["🇪🇺","country-flag","Falasire"],["🇫🇷","country-flag","Famifasi"],["🇬🇦","country-flag","Lasisoldo"],["🇬🇫","country-flag","Sollasifa"],["🇬🇸","country-flag","Fasilado"],["🇮🇨","country-flag","Doresoldola"],["🇮🇱","country-flag","Dodolasol"],["🇮🇳","country-flag","Ladosimi"],["🇰🇵","country-flag","Dolasifa"],["🇸🇽","country-flag","Dosimisol"],["🥄","dishware","Dolarefa"],["🍶","drink","Midofala"],["🍺","drink","Dosifare"],["💋","emotion","Resirela"],["💓","emotion","Solsolmifa"],["💔","emotion","Relarefa"],["💙","emotion","Laremila"],["💛","emotion","Laremisol"],["💜","emotion","Laremire"],["💣","emotion","Famisire"],["💦","emotion","Solsolrefa"],["💨","emotion","Fasimifa"],["🎆","event","Silasisi"],["🎈","event","Sifalala"],["🎉","event","Siresimi"],["🎑","event","Simimi"],["🎀","event","Lasidosi"],["🎫","event","Remirela"],["👹","face-fantasy","Sidola"],["💀","face-fantasy","Doredofa"],["👻","face-fantasy","Misilare"],["👽","face-fantasy","Remisolsol"],["😐","face-neutral","Solfado"],["😣","face-neutral","Solsifami"],["😴","face-neutral","Remilado"],["😕","face-neutral","Lamidosol"],["🤧","face-sick","Fasolsolfa"],["🤣","face-smiley","Fasollare"],["💑","family","Lasirefa"],["👪","family","Residosol"],["🚩","flag","Sidosila"],["🏳","flag","Laredosol"],["🍚","food-asian","Fafalami"],["🍛","food-asian","Lasisido"],["🍈","food-fruit","Domidorela"],["🍋","food-fruit","Fafasisol"],["🍑","food-fruit","Dosiresi"],["🍒","food-fruit","Dosirela"],["🍫","food-sweet","Dosisoldo"],["🍬","food-sweet","Dosifasi"],["🍯","food-sweet","Lasolmimi"],["🥕","food-vegetable","Domidomisol"],["🥒","food-vegetable","Domidoresi"],["🍄","food-vegetable","Domidoredo"],["♠","game","Fadosolla"],["♦","game","Lalasido"],["🚿","hotel","Sisido"],["🔭","light-video","Sifarere"],["💉","medical","Sollalado"],["💴","money","Doredolasi"],["💷","money","Simire"],["💱","money","Lafasoldo"],["🎚","music","Resolsolmi"],["🎷","musical-instrument","Solredosol"],["📏","office","Fasisolmi"],["✂","office","Refasifa"],["⚰","other-object","Solsidodo"],["⚱","other-object","Solsirere"],["⚕","other-symbol","Fafadofa"],["➿","other-symbol","Lamilami"],["⁉","other-symbol","Lasila"],["👤","person-activity","Sollamisol"],["👷","person-role","Reredore"],["🤴","person-role","Sirefado"],["🤰","person-role","Resiremi"],["☎","phone","Solsilami"],["🏛","place-building","Fadosisol"],["🏭","place-building","Ladoremi"],["🏰","place-building","Sidomifa"],["⛰","place-geographic","Fadomido"],["🌋","place-geographic","Fadomire"],["🏖","place-geographic","Falaresol"],["⛲","place-other","Sidolasi"],["🌁","place-other","Larere"],["🌇","place-other","Domimisi"],["🌉","place-other","Sidolafa"],["🌌","place-other","Silala"],["🎭","place-other","Solremido"],["🌼","plant-flower","Fadosimi"],["🌷","plant-flower","Domisimifa"],["🍃","plant-other","Lafare"],["⚛","religion","Fasilala"],["☸","religion","Fasiresi"],["🌒","sky-weather","Resolmifa"],["🌡","sky-weather","Sifamimi"],["☁","sky-weather","Sisimi"],["☂","sky-weather","Redosolsi"],["☄","sky-weather","Sirere"],["🎳","sport","Sifasimi"],["🏏","sport","Dorefadore"],["🥋","sport","Fasolfare"],["🕛","time","Mimisi"],["🕚","time","Mimila"],["🗡","tool","Fasoldosi"],["🔫","tool","Famisila"],["⚙","tool","Refafado"],["🗜","tool","Refasisi"],["⛓","tool","Reladola"],["🚟","transport-air","Solresifa"],["🚡","transport-air","Misifala"],["🚂","transport-ground","Fasiremi"],["🚇","transport-ground","Dodorela"],["🚊","transport-ground","Lamidola"],["🚙","transport-ground","Fasirefa"],["🚜","transport-ground","Simimisol"],["🛴","transport-ground","Miresimi"],["⛽","transport-ground","Refamila"],["🚥","transport-ground","Resolsolla"],["🚦","transport-ground","Resolsolsi"],["🚻","transport-sign","Solsisido"],["🛄","transport-sign","Fasiresol"],["⚓","transport-water","Falaremi"],["🚸","warning","Domifasol"],["🚫","warning","Silarela"],["♈","zodiac","Lasilasi"],["♋","zodiac","Solfafasol"]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 
 </body>

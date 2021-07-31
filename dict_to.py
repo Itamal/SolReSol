@@ -139,3 +139,34 @@ for index, row in db.iterrows():
         print(index)
         db.to_csv('emojis.csv', index=False, header=True, encoding='utf-8-sig', quoting=csv.QUOTE_ALL, line_terminator='],\n[')
 db.to_string()
+
+dbF.reset_index(inplace=True, drop=True)
+#by emoji
+import math
+dbF['emojis'] = np.nan
+dbF['emojicount'] = 0
+dbF['emojistypes'] = np.nan
+dbF = dbF.apply(lambda s: s.fillna({i: [] for i in dbF.index}))
+for index, row in dbF.iterrows():
+    a = (row[1].split(' ', 1)[0]).split(',', 1)[0]
+    #print(a)
+    for indexDB, rowDB in db.iterrows():
+        #print('RDY',a,rowDB[1],rowDB)
+        if (rowDB[1] != rowDB[1]):
+            break
+        if ((rowDB[1].lower()).find(a.lower()) > -1):
+            #print('BINGO',rowDB[0],row[0],row[1],rowDB[1])
+            dbF.loc[index, 'emojis']
+            dbF['emojis'][index].append(rowDB[0])
+            dbF['emojistypes'][index].append(rowDB[1])
+            dbF['emojicount'][index] = dbF['emojicount'][index] + 1
+            if (dbF['emojicount'][index] > 3):
+                break
+    if (index > 2991):
+                break
+    # option two - look emoji by emoji and find what fits it
+    # for i in rowDBF -> a.lower().find(rowDBF[1])
+    if (index%33 == 0):
+        print(index)
+        dbF.to_csv('emojis4.csv', index=False, header=True, encoding='utf-8-sig', quoting=csv.QUOTE_ALL, line_terminator='],\n[')
+dbF.to_string()
